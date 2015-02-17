@@ -1,0 +1,21 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        title QUnit test
+        link(rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css")
+    body
+        div#qunit
+        div#qunit-fixture
+
+        script(src="../bower_components/qunit/qunit/qunit.js")
+        script(src="../bower_components/requirejs/require.js")
+
+        // startup
+        script.
+            require.config({
+                baseUrl: '../'
+            })
+            require(['test/test'], function () {
+                // do nothing
+            })
