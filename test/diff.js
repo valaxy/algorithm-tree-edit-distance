@@ -1,6 +1,10 @@
 define(function (require) {
 	var diff = require('src/diff')
 	var TreeNode = require('bower_components/algorithm-data-structure/src/tree/ordered/linked-ordered-node')
+	var AddOperation = require('src/operation/add')
+	var DeleteOperation = require('src/operation/delete')
+	var EditOperation = require('src/operation/edit')
+
 
 	module('diff')
 
@@ -60,13 +64,6 @@ define(function (require) {
 	})
 
 
-	//test('_initStates()', function (assert) {
-	//	var states = diff._initStates(10, 20)
-	//	assert.equal(states[0][0][0][0], -1)
-	//	assert.equal(states[9][9][19][19], -1)
-	//})
-
-
 	test('diff: case from paper', function (assert) {
 		// Tree1
 		var f1 = new TreeNode('f')
@@ -91,7 +88,26 @@ define(function (require) {
 		c2.addChildLast(d2)
 		d2.addChildLast(a2).addChildLast(b2)
 
-		assert.equal(diff(f1, f2), 2)
+		var result = diff(f1, f2, {
+			// 判断相等
+			compare: function (nodeA, nodeB) {
+				return nodeA.value() == nodeB.value()
+			}
+		})
+		assert.equal(result.value, 2)
+		assert.deepEqual([result.steps[0].node, result.steps[1].node], [c2, c1])
 	})
 
 })
+
+
+//test('_initArray()', function (assert) {
+//	var ary = diff._initArray()
+//	assert.equal(ary, null)
+//
+//	ary = diff._initArray(3)
+//	assert.deepEqual(ary, [null, null, null])
+//
+//	ary = diff._initArray(2, 2)
+//	assert.deepEqual(ary, [[null, null], [null, null]])
+//})
