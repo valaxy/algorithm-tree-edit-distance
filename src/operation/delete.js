@@ -5,5 +5,10 @@ define(function () {
 		this.node = node
 	}
 
+	DeleteOperation.prototype.equals = function (op) {
+		return op.constructor == this.constructor &&
+			this.node === op.node
+	}
+
 	return DeleteOperation
 })

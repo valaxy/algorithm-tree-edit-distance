@@ -5,6 +5,20 @@ define(function (require) {
 
 
 	var compare, states, nodes1, nodes2
+	var addCost, deleteCost, editCost
+
+
+	var defaultAddCost = function () {
+		return 1
+	}
+
+	var defaultDeleteCost = function () {
+		return 1
+	}
+
+	var defaultEditCost = function () {
+		return 1
+	}
 
 	var init = function () {
 		compare = null  // compare(nodeA, nodeB)函数, 相等返回true
@@ -64,7 +78,7 @@ define(function (require) {
 						j: j - 1
 					}
 				}
-				result.value = getValue(result.state.i1, result.state.i, result.state.j1, result.state.j) + 1
+				result.value = getValue(result.state.i1, result.state.i, result.state.j1, result.state.j) + addCost(nodes2[j])
 			}
 		} else {
 			if (jj > j) { // 非空 && 空
@@ -77,7 +91,7 @@ define(function (require) {
 						j: j
 					}
 				}
-				result.value = getValue(result.state.i1, result.state.i, result.state.j1, result.state.j) + 1
+				result.value = getValue(result.state.i1, result.state.i, result.state.j1, result.state.j) + deleteCost(nodes1[i])
 			} else { // 非空 && 非空
 				var result1 = {
 					op: new DeleteOperation(nodes1[i]),
@@ -88,7 +102,7 @@ define(function (require) {
 						j: j
 					}
 				}
-				result1.value = getValue(result1.state.i1, result1.state.i, result1.state.j1, result1.state.j) + 1
+				result1.value = getValue(result1.state.i1, result1.state.i, result1.state.j1, result1.state.j) + deleteCost(nodes1[i])
 
 
 				var result2 = {
@@ -100,7 +114,7 @@ define(function (require) {
 						j: j - 1
 					}
 				}
-				result2.value = getValue(result2.state.i1, result2.state.i, result2.state.j1, result2.state.j) + 1
+				result2.value = getValue(result2.state.i1, result2.state.i, result2.state.j1, result2.state.j) + addCost(nodes2[j])
 
 
 				var isSame = compare(nodes1[i], nodes2[j])
@@ -120,7 +134,8 @@ define(function (require) {
 				}
 				result3.value = getValue(result3.state[0].i1, result3.state[0].i, result3.state[0].j1, result3.state[0].j)
 				+ getValue(result3.state[1].i1, result3.state[1].i, result3.state[1].j1, result3.state[1].j)
-				+ (isSame ? 0 : 1)
+				+ (isSame ? 0 : editCost(nodes1[i], nodes2[j]))
+
 
 				var minValue = Math.min(result1.value, result2.value, result3.value)
 				if (minValue == result1.value) {
@@ -189,6 +204,10 @@ define(function (require) {
 	var diff = function (root1, root2, options) {
 		init()
 		compare = options.compare
+		addCost = options.addCost || defaultAddCost
+		deleteCost = options.deleteCost || defaultDeleteCost
+		editCost = options.editCost || defaultEditCost
+
 
 		// post order
 		nodes1 = postOrder(root1)

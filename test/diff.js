@@ -138,6 +138,38 @@ define(function (require) {
 	})
 
 
+	test('diff(): a common case', function (assert) {
+		// Tree1
+		var a1 = new TreeNode('a')
+		var b1 = new TreeNode('b')
+		var c1 = new TreeNode('c')
+		var d1 = new TreeNode('d')
+		a1.addChildLast(b1)
+		b1.addChildLast(c1).addChildLast(d1)
+
+		// Tree2
+		var e2 = new TreeNode('e')
+		var c2 = new TreeNode('c')
+		var d2 = new TreeNode('d')
+		var f2 = new TreeNode('f')
+		e2.addChildLast(c2).addChildLast(d2).addChildLast(f2)
+
+		// test
+		var result = diff(a1, e2, {
+			compare: function (nodeA, nodeB) {
+				return nodeA.value() == nodeB.value()
+			},
+			deleteCost: function (node) {
+				return node.parent() ? 0.5 : 1 // assume delete a root node cost more
+			}
+		})
+		assert.equal(result.value, 2.5)
+		assert.ok(result.steps[0].equals(new EditOperation(a1, e2)))
+		assert.ok(result.steps[1].equals(new DeleteOperation(b1)))
+		assert.ok(result.steps[2].equals(new AddOperation(f2)))
+	})
+
+
 })
 
 

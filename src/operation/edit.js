@@ -7,5 +7,12 @@ define(function () {
 		this.toNode = toNode
 	}
 
+	EditOperation.prototype.equals = function (op) {
+		return op.constructor == this.constructor &&
+			this.fromNode === op.fromNode &&
+			this.toNode === op.toNode
+	}
+
+
 	return EditOperation
 })
