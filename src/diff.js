@@ -4,11 +4,14 @@ define(function (require) {
 	var EditOperation = require('./operation/edit')
 
 
-	var compare = null  // compare(nodeA, nodeB)函数, 相等返回true
-	var states = []     // 所有的状态
-	var nodes1 = []
-	var nodes2 = []
+	var compare, states, nodes1, nodes2
 
+	var init = function () {
+		compare = null  // compare(nodeA, nodeB)函数, 相等返回true
+		states = []     // 所有的状态
+		nodes1 = []
+		nodes2 = []
+	}
 
 	var initArrayElement = function (states, i, j, k) {
 		if (!Array.isArray(states[i])) {
@@ -177,13 +180,14 @@ define(function (require) {
 	}
 
 
-	// 算法来自那篇论文
+	// 算法来自ZHANG SHA SHA的论文
 	// - 构造两棵树
 	// - 计算每棵树的后序遍历编号,
 	// - 从小到大枚举i, 从近到远枚举anc(i)=ii, 枚举同j, jj, 得到状态(ii, i, jj, j)
 	// - 计算该状态
 	// - 求state(0, root1, 0, root2)
 	var diff = function (root1, root2, options) {
+		init()
 		compare = options.compare
 
 		// post order

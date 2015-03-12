@@ -64,7 +64,7 @@ define(function (require) {
 	})
 
 
-	test('diff: case from paper', function (assert) {
+	test('diff(): case from paper', function (assert) {
 		// Tree1
 		var f1 = new TreeNode('f')
 		var d1 = new TreeNode('d')
@@ -97,6 +97,46 @@ define(function (require) {
 		assert.equal(result.value, 2)
 		assert.deepEqual([result.steps[0].node, result.steps[1].node], [c2, c1])
 	})
+
+
+	test('diff(): insert or remove all nodes', function (assert) {
+		// Tree1
+		var a1 = new TreeNode('a')
+		var b1 = new TreeNode('b')
+		var c1 = new TreeNode('c')
+		var d1 = new TreeNode('d')
+		a1.addChildLast(b1).addChildLast(c1)
+		c1.addChildLast(d1)
+
+		// Tree2
+		var a2 = new TreeNode('a')
+
+		// remove All
+		var result = diff(a1, a2, {
+			compare: function (nodeA, nodeB) {
+				return nodeA.value() == nodeB.value()
+			}
+		})
+		assert.equal(result.value, 3)
+		assert.equal(result.steps[0].constructor, DeleteOperation)
+		assert.equal(result.steps[0].node, c1)
+		assert.equal(result.steps[1].node, d1)
+		assert.equal(result.steps[2].node, b1)
+
+
+		// test insert all
+		var result = diff(a2, a1, {
+			compare: function (nodeA, nodeB) {
+				return nodeA.value() == nodeB.value()
+			}
+		})
+		assert.equal(result.value, 3)
+		assert.equal(result.steps[0].constructor, AddOperation)
+		assert.equal(result.steps[0].node, c1)
+		assert.equal(result.steps[1].node, d1)
+		assert.equal(result.steps[2].node, b1)
+	})
+
 
 })
 
