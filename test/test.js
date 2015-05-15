@@ -1,5 +1,3 @@
-define(function (require, exports) {
-	exports.init = function () {
-		require('./diff')
-	}
+define(function (require) {
+	require('./diff')
 })

@@ -201,6 +201,15 @@ define(function (require) {
 	// - 从小到大枚举i, 从近到远枚举anc(i)=ii, 枚举同j, jj, 得到状态(ii, i, jj, j)
 	// - 计算该状态
 	// - 求state(0, root1, 0, root2)
+
+
+	/** root1: the root of old tree, which is OrderedTree
+	 ** root2: the root of new tree, which is OrderedTree
+	 ** options:
+	 **     - compare(nodeA, nodeB): must, if equal returns true, else return false
+	 **     - [addCost(node)]: if add `node` which only exist in new tree, what is the cost
+	 **     - [deleteCost(node)]: if delete `node` which only exist in old tree, what is the cost
+	 **     - [editCost(nodeA, nodeB)]: if change `nodeA` to `nodeB`, what is the cost */
 	var diff = function (root1, root2, options) {
 		init()
 		compare = options.compare

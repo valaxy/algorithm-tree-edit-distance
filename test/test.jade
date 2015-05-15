@@ -10,12 +10,6 @@ html
 
         script(src="../bower_components/qunit/qunit/qunit.js")
         script(src="../bower_components/requirejs/require.js")
-
-        // startup
+        script(src="config.js")
         script.
-            require.config({
-                baseUrl: '../'
-            })
-            require(['test/test'], function () {
-                // do nothing
-            })
+            require(['test/test'])

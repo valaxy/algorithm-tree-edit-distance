@@ -1,6 +1,6 @@
 {
   "name": "algorithm-tree-edit-distance",
-  "version": "0.0.0",
+  "version": "0.1.0-dev",
   "homepage": "https://github.com/valaxy/algorithm-tree-edit-distance",
   "authors": [
     "valaxy <valaxy.tian@gmail.com>"
@@ -14,8 +14,10 @@
     "tests"
   ],
   "dependencies": {
-    "requirejs": "~2.1.16",
-    "qunit": "~1.17.1",
     "algorithm-data-structure": "valaxy/algorithm-data-structure"
+  },
+  "devDependencies": {
+    "requirejs": "~2.1.17",
+    "qunit": "~1.18.0"
   }
 }

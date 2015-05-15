@@ -1,15 +1,15 @@
 define(function (require) {
 	var diff = require('src/diff')
-	var TreeNode = require('bower_components/algorithm-data-structure/src/tree/ordered/linked-ordered-node')
 	var AddOperation = require('src/operation/add')
 	var DeleteOperation = require('src/operation/delete')
 	var EditOperation = require('src/operation/edit')
+	var TreeNode = require('bower_components/algorithm-data-structure/src/tree/ordered/linked-ordered-node')
 
 
-	module('diff')
+	QUnit.module('diff')
 
 
-	test('_iterateAncestors()', function (assert) {
+	QUnit.test('_iterateAncestors()', function (assert) {
 		var root = new TreeNode
 		var n1 = new TreeNode
 		var n2 = new TreeNode
@@ -45,7 +45,7 @@ define(function (require) {
 	})
 
 
-	test('_postOrder()', function (assert) {
+	QUnit.test('_postOrder()', function (assert) {
 		var root = new TreeNode('a')
 		var n1 = new TreeNode('b')
 		var n2 = new TreeNode('c')
@@ -64,7 +64,7 @@ define(function (require) {
 	})
 
 
-	test('diff(): case from paper', function (assert) {
+	QUnit.test('diff(): case from paper', function (assert) {
 		// Tree1
 		var f1 = new TreeNode('f')
 		var d1 = new TreeNode('d')
@@ -99,7 +99,7 @@ define(function (require) {
 	})
 
 
-	test('diff(): insert or remove all nodes', function (assert) {
+	QUnit.test('diff(): insert or remove all nodes', function (assert) {
 		// Tree1
 		var a1 = new TreeNode('a')
 		var b1 = new TreeNode('b')
@@ -138,7 +138,7 @@ define(function (require) {
 	})
 
 
-	test('diff(): a common case', function (assert) {
+	QUnit.test('diff(): a common case', function (assert) {
 		// Tree1
 		var a1 = new TreeNode('a')
 		var b1 = new TreeNode('b')
@@ -156,7 +156,7 @@ define(function (require) {
 
 		// test
 		var result = diff(a1, e2, {
-			compare: function (nodeA, nodeB) {
+			compare   : function (nodeA, nodeB) {
 				return nodeA.value() == nodeB.value()
 			},
 			deleteCost: function (node) {
@@ -168,7 +168,6 @@ define(function (require) {
 		assert.ok(result.steps[1].equals(new DeleteOperation(b1)))
 		assert.ok(result.steps[2].equals(new AddOperation(f2)))
 	})
-
 
 })
 
