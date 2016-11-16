@@ -1,3 +1,6 @@
+[![dependencies Status](https://david-dm.org/valaxy/algorithm-tree-edit-distance/status.svg?style=flat-square)](https://david-dm.org/valaxy/algorithm-tree-edit-distance)
+[![devDependencies Status](https://david-dm.org/valaxy/algorithm-tree-edit-distance/dev-status.svg?style=flat-square)](https://david-dm.org/valaxy/algorithm-tree-edit-distance?type=dev)
+
 The classical algorithm about tree edit distance which published by ZHANG SHA SHA for CommonJS package
 
 # Usage
