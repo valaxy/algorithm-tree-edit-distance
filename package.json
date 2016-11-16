@@ -1,0 +1,14 @@
+{
+  "name": "algorithm-tree-edit-distance",
+  "version": "0.1.0-dev",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha test/diff"
+  },
+  "main": "lib/diff.js",
+  "devDependencies": {
+    "algorithm-data-structure": "github:valaxy/algorithm-data-structure#8957756469487b4060b965fefb8567399ab5fd81",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
+}

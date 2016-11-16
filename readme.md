@@ -1,13 +1,11 @@
-> This is under development, API may not be stable
-
-The classical algorithm about tree edit distance which published by ZHANG SHA SHA for AMD/CMD package
+The classical algorithm about tree edit distance which published by ZHANG SHA SHA for CommonJS package
 
 # Usage
 ```javascript
-var TreeNode = require('bower_components/algorithm-data-structure/src/tree/ordered/linked-ordered-node')
-var diff     = require('bower_components/algorithm-tree-edit-distance/src/diff')
+const TreeNode = require('algorithm-data-structure/dest/tree/ordered/linked-ordered-node')
+const diff     = require('algorithm-tree-edit-distance')
 
-var result = diff(
+const result = diff(
     new TreeNode, 
     new TreeNode,
     {

@@ -1,15 +1,23 @@
-define(function (require) {
-	var diff = require('src/diff')
-	var AddOperation = require('src/operation/add')
-	var DeleteOperation = require('src/operation/delete')
-	var EditOperation = require('src/operation/edit')
-	var TreeNode = require('bower_components/algorithm-data-structure/src/tree/ordered/linked-ordered-node')
+const diff = require('../lib/diff')
+const AddOperation = require('../lib/addOperation')
+const DeleteOperation = require('../lib/deleteOperation')
+const EditOperation = require('../lib/editOperation')
+const TreeNode = require('algorithm-data-structure/dest/tree/ordered/linked-ordered-node')
+const assert = require('chai').assert
 
 
-	QUnit.module('diff')
+const createNode = function (v) {
+	let node = new TreeNode
+	node._value = v
+	return node
+}
 
+const getValue = function (node) {
+	return node._value
+}
 
-	QUnit.test('_iterateAncestors()', function (assert) {
+describe('diff', function () {
+	it('_iterateAncestors()', function () {
 		var root = new TreeNode
 		var n1 = new TreeNode
 		var n2 = new TreeNode
@@ -45,12 +53,12 @@ define(function (require) {
 	})
 
 
-	QUnit.test('_postOrder()', function (assert) {
-		var root = new TreeNode('a')
-		var n1 = new TreeNode('b')
-		var n2 = new TreeNode('c')
-		var n3 = new TreeNode('d')
-		var n4 = new TreeNode('e')
+	it('_postOrder()', function () {
+		var root = createNode('a')
+		var n1 = createNode('b')
+		var n2 = createNode('c')
+		var n3 = createNode('d')
+		var n4 = createNode('e')
 		root.addChildLast(n1).addChildLast(n2)
 		n1.addChildLast(n3)
 		n2.addChildLast(n4)
@@ -64,26 +72,26 @@ define(function (require) {
 	})
 
 
-	QUnit.test('diff(): case from paper', function (assert) {
+	it('diff(): case from paper', function () {
 		// Tree1
-		var f1 = new TreeNode('f')
-		var d1 = new TreeNode('d')
-		var e1 = new TreeNode('e')
-		var a1 = new TreeNode('a')
-		var c1 = new TreeNode('c')
-		var b1 = new TreeNode('b')
+		var f1 = createNode('f')
+		var d1 = createNode('d')
+		var e1 = createNode('e')
+		var a1 = createNode('a')
+		var c1 = createNode('c')
+		var b1 = createNode('b')
 		f1.addChildLast(d1).addChildLast(e1)
 		d1.addChildLast(a1).addChildLast(c1)
 		c1.addChildLast(b1)
 
 
 		// Tree2
-		var f2 = new TreeNode('f')
-		var c2 = new TreeNode('c')
-		var e2 = new TreeNode('e')
-		var d2 = new TreeNode('d')
-		var a2 = new TreeNode('a')
-		var b2 = new TreeNode('b')
+		var f2 = createNode('f')
+		var c2 = createNode('c')
+		var e2 = createNode('e')
+		var d2 = createNode('d')
+		var a2 = createNode('a')
+		var b2 = createNode('b')
 		f2.addChildLast(c2).addChildLast(e2)
 		c2.addChildLast(d2)
 		d2.addChildLast(a2).addChildLast(b2)
@@ -91,7 +99,7 @@ define(function (require) {
 		var result = diff(f1, f2, {
 			// 判断相等
 			compare: function (nodeA, nodeB) {
-				return nodeA.value() == nodeB.value()
+				return nodeA._value == nodeB._value
 			}
 		})
 		assert.equal(result.value, 2)
@@ -99,22 +107,22 @@ define(function (require) {
 	})
 
 
-	QUnit.test('diff(): insert or remove all nodes', function (assert) {
+	it('diff(): insert or remove all nodes', function () {
 		// Tree1
-		var a1 = new TreeNode('a')
-		var b1 = new TreeNode('b')
-		var c1 = new TreeNode('c')
-		var d1 = new TreeNode('d')
+		var a1 = createNode('a')
+		var b1 = createNode('b')
+		var c1 = createNode('c')
+		var d1 = createNode('d')
 		a1.addChildLast(b1).addChildLast(c1)
 		c1.addChildLast(d1)
 
 		// Tree2
-		var a2 = new TreeNode('a')
+		var a2 = createNode('a')
 
 		// remove All
 		var result = diff(a1, a2, {
 			compare: function (nodeA, nodeB) {
-				return nodeA.value() == nodeB.value()
+				return nodeA._value == nodeB._value
 			}
 		})
 		assert.equal(result.value, 3)
@@ -127,7 +135,7 @@ define(function (require) {
 		// test insert all
 		var result = diff(a2, a1, {
 			compare: function (nodeA, nodeB) {
-				return nodeA.value() == nodeB.value()
+				return nodeA._value == nodeB._value
 			}
 		})
 		assert.equal(result.value, 3)
@@ -138,26 +146,26 @@ define(function (require) {
 	})
 
 
-	QUnit.test('diff(): a common case', function (assert) {
+	it('diff(): a common case', function () {
 		// Tree1
-		var a1 = new TreeNode('a')
-		var b1 = new TreeNode('b')
-		var c1 = new TreeNode('c')
-		var d1 = new TreeNode('d')
+		var a1 = createNode('a')
+		var b1 = createNode('b')
+		var c1 = createNode('c')
+		var d1 = createNode('d')
 		a1.addChildLast(b1)
 		b1.addChildLast(c1).addChildLast(d1)
 
 		// Tree2
-		var e2 = new TreeNode('e')
-		var c2 = new TreeNode('c')
-		var d2 = new TreeNode('d')
-		var f2 = new TreeNode('f')
+		var e2 = createNode('e')
+		var c2 = createNode('c')
+		var d2 = createNode('d')
+		var f2 = createNode('f')
 		e2.addChildLast(c2).addChildLast(d2).addChildLast(f2)
 
 		// test
 		var result = diff(a1, e2, {
 			compare   : function (nodeA, nodeB) {
-				return nodeA.value() == nodeB.value()
+				return nodeA._value == nodeB._value
 			},
 			deleteCost: function (node) {
 				return node.parent() ? 0.5 : 1 // assume delete a root node cost more
